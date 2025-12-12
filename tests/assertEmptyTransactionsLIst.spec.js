@@ -3,16 +3,16 @@ import { test, expect } from '@playwright/test';
 test('Assert the empty transactions list has correct values', async ({
   page,
 }) => {
-  /* 
-  Test:
-  1. Open Wizard bank login for Customer using link 
-    https://www.globalsqa.com/angularJs-protractor/BankingProject/#/customer
-  2. Select "Albus Dumbledore"
-  3. Click [Login]
-  4. Click [Transactions]
-  5. Assert first column header conatins text "Date-Time"
-  6. Assert second column header conatins text "Amount"
-  7. Assert first column header conatins text "Transaction Type"
-  8. Assert the first row in table is hidden
-  */
+  await page.goto('https://www.globalsqa.com/angularJs-protractor/BankingProject/#/customer');
+  await page.locator('#userSelect').selectOption('Albus Dumbledore');
+  await page.getByRole('button', {name: 'Login'}).click();
+  await page.getByRole('button', {name: 'Transactions'}).click();
+  
+  const tableHeader = page.locator('thead');
+  await expect(tableHeader.getByText('Date-Time')).toBeVisible();
+  await expect(tableHeader.getByText('Amount')).toBeVisible();
+  await expect(tableHeader.getByText('Transaction Type')).toBeVisible();
+
+  await expect(page.locator('#anchor0')).toBeHidden();
+
 });
